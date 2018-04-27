@@ -2,6 +2,8 @@ package org.myrest.message.service;
 
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
+
 import org.myrest.message.DAO.UserDAO;
 import org.myrest.message.model.User;
 
@@ -19,7 +21,7 @@ public class UserAuthService {
 		
 		return user;
 	}
-	public User signupAuth(User user) {
+	public User signupAuth( User user) {
 		
 		return dao.addUser(user);
 	

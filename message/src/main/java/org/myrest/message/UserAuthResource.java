@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Qualifier;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,7 +34,7 @@ public class UserAuthResource {
 	
 	@POST
 	@Path("/signup")
-	public User signUp(User user) {
+	public User signUp(@Valid User user) {
 		System.out.println(user.toString());
 		return service.signupAuth(user);
 	}
