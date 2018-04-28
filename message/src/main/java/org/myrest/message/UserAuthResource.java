@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.myrest.message.model.Login;
 import org.myrest.message.model.User;
 import org.myrest.message.service.UserAuthService;
 
@@ -31,9 +32,9 @@ public class UserAuthResource {
 	
 	@POST
 	@Path("/login")
-	public User loginUser() {
+	public Response loginUser(@Valid Login user) throws ConstraintViolationException {
 		
-		return null;
+		return service.loginAuth(user);
 		
 	}
 	

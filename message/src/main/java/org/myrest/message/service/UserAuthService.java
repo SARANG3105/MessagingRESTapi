@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.myrest.message.DAO.UserDAO;
 import org.myrest.message.model.Error;
+import org.myrest.message.model.Login;
 import org.myrest.message.model.User;
 
 
@@ -15,9 +16,24 @@ public class UserAuthService {
 
 	private UserDAO dao= new UserDAO();
 	
-	public User loginAuth() {
-		User user= new User();
-		return user;
+	public Response loginAuth(Login user) {
+		User usr=dao.validateLogin(user);
+		
+		if(PasswordEncrypt.authPassword(user.getPassword(), usr.getPassword())) {
+			usr.setStatus("ok");
+			return Response.status(Status.OK)
+					.entity(usr)
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		}
+		Error err= new Error();
+		err.setStatus("error");
+		err.setMessage("Invalid email /or Password.");
+		return Response.status(Status.UNAUTHORIZED)
+				.entity(err)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
 	}
 	
 	public Response signupAuth(User user){
