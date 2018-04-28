@@ -1,9 +1,6 @@
 package org.myrest.message.DAO;
 
 import java.util.List;
-
-import javax.validation.Valid;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,24 +12,28 @@ import java.util.Iterator;
 
 public class UserDAO {
 	
-	public User  addUser(User usr) {
-		
+	public User  addUser(User usr, String hashedPass){
+int size= validateUser(usr);
+if(size>0) {
+	System.out.println("hala");
+	return null;
+}else {
 		Session session= SessionUtil.getSession();
 		Transaction tx= session.beginTransaction();
 		User user = new User();
-		String pass= PasswordEncrypt.hashPassword(usr.getPassword());
 		user.setUser_id(usr.getUser_id());
 		user.setUser_email(usr.getUser_email());
 		user.setUser_fname(usr.getUser_fname());
 		user.setUser_lname(usr.getUser_lname());
-		user.setPassword(pass);
+		user.setPassword(hashedPass);
 		session.save(user);
 		tx.commit();
 		session.close();
 		usr.setUser_id(user.getUser_id());
 		return getToken(usr);
-	}
 	
+	}
+	}
 	public List<User> getAllUsers(){
 		Session session= SessionUtil.getSession();
 		Transaction tx= session.beginTransaction();
@@ -53,6 +54,17 @@ public class UserDAO {
 		String token=Token.getToken(user.getUser_fname(), user.getUser_lname());
 		user.setToken(token);
 		return user;
+	}
+	
+	public int validateUser(User user) {
+		Session session= SessionUtil.getSession();
+		Query qry= session.createQuery("from User where user_email=:user_email");
+		
+		qry.setString("user_email", user.getUser_email());
+		List<User> usr= qry.list();
+		session.close();
+		System.out.println(usr.size());
+		return usr.size();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package org.myrest.message.DAO;
+package org.myrest.message.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 

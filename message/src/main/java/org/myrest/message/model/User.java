@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.myrest.message.constraints.UserValid;
+
 
 @XmlRootElement
 @Entity
@@ -54,7 +58,7 @@ public class User implements Serializable {
 	private String password;
 	
 	
-	@Column(name="user_email")
+	@Column(name="user_email",unique=true)
 	@NotNull
 	@Email
 	private String user_email;
